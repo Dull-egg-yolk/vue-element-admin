@@ -1,31 +1,37 @@
 <template>
   <div class="dashboard-container">
-    <component :is="currentRole" />
+    <div class="title">{{ timeFix }}, {{ name }} !</div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import adminDashboard from './admin'
-import editorDashboard from './editor'
 
+import { timeFix } from '@/utils/utils'
+import { mapState } from 'vuex'
 export default {
   name: 'Dashboard',
-  components: { adminDashboard, editorDashboard },
+  components: {
+  },
   data() {
     return {
-      currentRole: 'adminDashboard'
+      timeFix: timeFix()
     }
   },
   computed: {
-    ...mapGetters([
-      'roles'
-    ])
-  },
-  created() {
-    if (!this.roles.includes('admin')) {
-      this.currentRole = 'editorDashboard'
-    }
+    ...mapState({
+      name: (state) => state.user.name
+    })
   }
 }
 </script>
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+  .dashboard-container {
+    color: #ccc;
+    .title {
+      color: #111111;
+      background: #fff;
+      margin: 40px;
+    }
+  }
+</style>
